@@ -19,6 +19,7 @@ services:
   backend:
     depends_on: 
       - db
+    image: node:erbium-alpine
     container_name: rinku-api
     restart: always
     build:
@@ -34,13 +35,14 @@ services:
   frontend:
     depends_on: 
       - backend
+    image: nginx:1.17.1-alpine
     container_name: rinku-app
     restart: always
     build:
       context: ./rinku-app
       dockerfile: Dockerfile
     ports:
-      - 8080:80
+      - 8081:80
     networks:
       - frontend
 networks:
