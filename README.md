@@ -40,7 +40,7 @@ POST:
 
 ## Database
 
-Se utilizo mysql como motor de base de datos y se puede encontrar el dump de la base de datos en la carpeta dump de este proyecto.
+Se utilizo mysql como motor de base de datos y se puede encontrar el dump de la base de datos en la carpeta dump de este proyecto, se utilizaron procedimientos almacenados para interactuar con las tablas.
 
 Diagrama de Entidad - Relación:
 ![Alt text](image-3.png)
