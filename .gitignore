@@ -1,6 +1,4 @@
-/mysql
+mysql
 .vscode
 node_modules
 API/dist
-/#innodb_temp
-/#innodb_redo
