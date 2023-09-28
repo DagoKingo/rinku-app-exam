@@ -3,16 +3,15 @@
 ## Deploy App
 
 1. Instalar Docker y Docker-Compose (Docker Desktop en windows)
-2. Ubicarse en el directorio raiz de este proyecto y correr el siguiente comando: `docker-compose pull`
-3. Ubicarse en el directorio raiz de este proyecto y correr el siguiente comando: `docker-compose up -d --build`
-4. Acceder a la siguiente liga para ver el proyecto: [http://localhost:8081/](http://localhost:8081)
+2. Ubicarse en el directorio raiz de este proyecto y correr el siguiente comando: `docker-compose up -d --build`
+3. Acceder a la siguiente liga para ver el proyecto: [http://localhost:8081/](http://localhost:8081)
 
 ## Frontend
 
 El proyecto fue desarrollado con Angular y esta conformado por 3 secciones que se muestran a continuación:
 
 1. Trabajadores:
-![Alt text](image-5.png)
+   ![Alt text](image-5.png)
 
 ![Alt text](image-6.png)
 
@@ -31,30 +30,28 @@ El proyecto consite en una API REST que fue desarrollada en nodejs utilizando ex
 Los endpoint utilizados en el proyecto son los siguientes:
 
 GET:
+
 1. http://localhost:2002/api/v1/trabajadores/roles
 2. http://localhost:2002/api/v1/trabajadores
 3. http://localhost:2002/api/v1/trabajadores/pagos?id_trabajador=2
 
 POST:
+
 1. http://localhost:2002/api/v1/trabajadores
 
-    `
-    {
-        "nombre": "Juan",
-        "numero": "0001",
-        "id_tipo": 1
-    }
-    `
+   `{
+    "nombre": "Juan",
+    "numero": "0001",
+    "id_tipo": 1
+}`
 
 2. http://localhost:2002/api/v1/trabajadores/pagos
 
-    `
-    {
-        "id_trabajador": 2,
-        "id_mes": 2,
-        "entregas": 10
-    }
-    `
+   `{
+    "id_trabajador": 2,
+    "id_mes": 2,
+    "entregas": 10
+}`
 
 ## Database
 
