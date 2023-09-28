@@ -9,11 +9,12 @@
 ## Frontend
 
 El proyecto fue desarrollado con Angular y esta conformado por 3 secciones que se muestran a continuación:
-Trabajadores:
+
+1. Trabajadores:
 ![Alt text](https://i.imgur.com/u9I13P0.png)
 
-Registro de trabajador:
+2. Registro de trabajador:
 ![Alt text](https://i.imgur.com/4fQiMnM.png)
 
-Calculo de pagos:
+3. Calculo de pagos:
 ![Alt text](https://i.imgur.com/uzSA6Js.png)
