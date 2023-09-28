@@ -11,8 +11,9 @@
 El proyecto fue desarrollado con Angular y esta conformado por 3 secciones que se muestran a continuación:
 
 1. Trabajadores:
+![Alt text](image-5.png)
 
-![Alt text](https://i.imgur.com/u9I13P0.png)
+![Alt text](image-6.png)
 
 2. Registro de trabajador:
 
@@ -31,6 +32,7 @@ Los endpoint utilizados en el proyecto son los siguientes:
 GET:
 1. http://localhost:2002/api/v1/trabajadores/roles
 2. http://localhost:2002/api/v1/trabajadores
+3. http://localhost:2002/api/v1/trabajadores/pagos?id_trabajador=2
 
 POST:
 1. http://localhost:2002/api/v1/trabajadores
@@ -43,14 +45,24 @@ POST:
     }
     `
 
+2. http://localhost:2002/api/v1/trabajadores/pagos
+
+    `
+    {
+        "id_trabajador": 2,
+        "id_mes": 2,
+        "entregas": 10
+    }
+    `
+
 ## Database
 
 Se utilizo mysql como motor de base de datos y se puede encontrar el `dump` de la base de datos en la carpeta dump de este proyecto, se utilizaron procedimientos almacenados para interactuar con las tablas.
 
 Diagrama de Entidad - Relación:
 
-![Alt text](image-3.png)
+![Alt text](image-7.png)
 
 Procedimientos utilizados:
 
-![Alt text](image-4.png)
+![Alt text](image-8.png)

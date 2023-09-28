@@ -18,6 +18,67 @@ USE `rinkudb`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `meses`
+--
+
+DROP TABLE IF EXISTS `meses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `meses` (
+  `id` tinyint NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `meses`
+--
+
+LOCK TABLES `meses` WRITE;
+/*!40000 ALTER TABLE `meses` DISABLE KEYS */;
+INSERT INTO `meses` VALUES (1,'Enero','2023-09-28 08:42:25'),(2,'Febrero','2023-09-28 08:42:25'),(3,'Marzo','2023-09-28 08:42:25'),(4,'Abril','2023-09-28 08:42:25'),(5,'Mayo','2023-09-28 08:42:25'),(6,'Junio','2023-09-28 08:42:25'),(7,'Julio','2023-09-28 08:42:25'),(8,'Agosto','2023-09-28 08:42:25'),(9,'Septiembre','2023-09-28 08:42:25'),(10,'Octubre','2023-09-28 08:42:25'),(11,'Noviembre','2023-09-28 08:42:25'),(12,'Diciembre','2023-09-28 08:42:25');
+/*!40000 ALTER TABLE `meses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_pagos_trabajadores`
+--
+
+DROP TABLE IF EXISTS `tb_pagos_trabajadores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_pagos_trabajadores` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `id_trabajador` bigint DEFAULT NULL,
+  `pago_mensual` double DEFAULT NULL,
+  `retencion` double DEFAULT NULL,
+  `vale_despensa` double DEFAULT NULL,
+  `bono_entregas` double DEFAULT NULL,
+  `num_entregas` int DEFAULT NULL,
+  `id_mes` tinyint DEFAULT NULL,
+  `pago_bono_horas` double DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `tb_pagos_trabajadores_FK` (`id_trabajador`),
+  KEY `tb_pagos_trabajadores_FK_1` (`id_mes`),
+  CONSTRAINT `tb_pagos_trabajadores_FK` FOREIGN KEY (`id_trabajador`) REFERENCES `trabajadores` (`id`),
+  CONSTRAINT `tb_pagos_trabajadores_FK_1` FOREIGN KEY (`id_mes`) REFERENCES `meses` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_pagos_trabajadores`
+--
+
+LOCK TABLES `tb_pagos_trabajadores` WRITE;
+/*!40000 ALTER TABLE `tb_pagos_trabajadores` DISABLE KEYS */;
+INSERT INTO `tb_pagos_trabajadores` VALUES (1,2,5760,518.4,230.4,5000,1000,1,480,'2023-09-28 10:13:53');
+/*!40000 ALTER TABLE `tb_pagos_trabajadores` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tipos_trabajadores`
 --
 
@@ -85,6 +146,37 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'rinkudb'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `sp_get_pagos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_get_pagos`(IN _id_trabajador BIGINT)
+BEGIN
+	IF (SELECT COUNT(*) FROM trabajadores WHERE id = _id_trabajador) = 0 THEN
+		SIGNAL SQLSTATE '45000' 
+		SET MESSAGE_TEXT = 'No se encontro al trabajador en el sistema';
+	ELSE
+		SELECT 
+			m.nombre as mes,
+			tpt.*, 
+			(tpt.pago_mensual + tpt.vale_despensa + tpt.bono_entregas + tpt.pago_bono_horas) as pago_bruto,
+			(tpt.pago_mensual + tpt.vale_despensa + tpt.bono_entregas + tpt.pago_bono_horas) - tpt.retencion as pago_neto
+		FROM tb_pagos_trabajadores tpt 
+		INNER JOIN meses m ON tpt.id_mes = m.id
+		WHERE id_trabajador = _id_trabajador;
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_get_roles` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -117,6 +209,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`%` PROCEDURE `sp_get_trabajadores`()
 BEGIN
 	SELECT 
+		t.id,
 		t.nombre,
 		t.numero,
 		t.id_tipo,
@@ -129,6 +222,61 @@ BEGIN
 		tt.porcentaje_vale_despensa 
 	FROM trabajadores t 
 	INNER JOIN tipos_trabajadores tt ON tt.id = t.id_tipo ;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_store_pago` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_store_pago`(IN _id_trabajador BIGINT, IN _id_mes INT, IN _entregas INT)
+BEGIN
+	IF (SELECT COUNT(*) FROM trabajadores WHERE id = _id_trabajador) = 0 THEN
+		SIGNAL SQLSTATE '45000' 
+		SET MESSAGE_TEXT = 'No se encontro al trabajador en el sistema';
+	ELSEIF (SELECT COUNT(*) FROM tb_pagos_trabajadores WHERE id_trabajador = _id_trabajador AND id_mes = _id_mes) > 0 THEN
+		SIGNAL SQLSTATE '45000' 
+		SET MESSAGE_TEXT = 'El trabajador ya cuenta con un pago registrado de este mes.';
+	ELSE
+		INSERT INTO tb_pagos_trabajadores(
+			id_trabajador, 
+			pago_mensual,
+			bono_entregas,
+			pago_bono_horas,
+			retencion,
+			vale_despensa, 
+			num_entregas,
+			id_mes 
+		)
+		SELECT 
+			t.id,
+			(tt.sueldo_base_x_hora * tt.horas_x_dia * tt.dias_x_semana) * 4 as pago_mensual,
+			(tt.bono_x_entrega * _entregas) as bono_entregas,
+			(tt.bono_x_hora * tt.horas_x_dia * tt.dias_x_semana) as bono_hora,
+			IF(
+				(tt.sueldo_base_x_hora * tt.horas_x_dia * tt.dias_x_semana) * 4 > 10000,
+				((tt.sueldo_base_x_hora * tt.horas_x_dia * tt.dias_x_semana) * 4) * 0.12,
+				((tt.sueldo_base_x_hora * tt.horas_x_dia * tt.dias_x_semana) * 4) * 0.09
+			) as retencion,
+			((tt.sueldo_base_x_hora * tt.horas_x_dia * tt.dias_x_semana) * 4) * 0.04 as vale_despensa,
+			_entregas,
+			_id_mes
+		FROM trabajadores t
+		INNER JOIN tipos_trabajadores tt ON tt.id = t.id_tipo
+		WHERE t.id = _id_trabajador;
+			
+		SELECT * FROM tb_pagos_trabajadores 
+		WHERE id = LAST_INSERT_ID(); 
+	END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -185,4 +333,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-28  1:45:02
+-- Dump completed on 2023-09-28 10:10:41
