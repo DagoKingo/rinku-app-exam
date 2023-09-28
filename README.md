@@ -21,5 +21,26 @@ El proyecto fue desarrollado con Angular y esta conformado por 3 secciones que s
 
 ## Backend
 
-El proyecto consite en una API y fue desarrollado en nodejs utilizando express como framework, typescript como lenguaje y MVC como patron de diseño.
+El proyecto consite en una API REST que fue desarrollada en nodejs utilizando express como framework, typescript como lenguaje y MVC como patron de diseño.
 
+Los endpoint utilizados en el proyecto son los siguientes:
+GET:
+1. http://localhost:2002/api/v1/trabajadores/roles
+2. http://localhost:2002/api/v1/trabajadores
+
+POST:
+1. http://localhost:2002/api/v1/trabajadores
+    `
+    {
+        "nombre": "Juan",
+        "numero": "0001",
+        "id_tipo": 1
+    }
+    `
+
+## Database
+
+Se utilizo mysql como motor de base de datos y se puede encontrar el dump de la base de datos en la carpeta dump de este proyecto.
+
+Diagrama de Entidad - Relación:
+![Alt text](image-3.png)
