@@ -1,8 +1,7 @@
 FROM node:erbium-alpine
 WORKDIR /app
-COPY /dist /app/dist
-COPY package.json /app
-COPY .env /app
+COPY . .
 RUN npm install
+RUN npm run build
 EXPOSE 2002
 CMD ["npm", "run", "start"]

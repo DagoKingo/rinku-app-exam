@@ -1,21 +1,50 @@
-version: '3.8'
+version: '3.9'
 services:
-  db: 
-    image: mysql:8.0
+  db:
+    image: 'mysql:8.0'
     restart: always
     container_name: mysql
-    command: --default-authentication-plugin=mysql_native_password
+    command: '--default-authentication-plugin=mysql_native_password'
     environment:
       MYSQL_DATABASE: rinkudb
       MYSQL_ROOT_PASSWORD: qaz123!
     ports:
       - 3306:3306
+    expose:
+      - 3306
     volumes:
-      - ./mysql:/var/lib/mysql
-  API:
-    image: node:lts-hydrogen
-    container_name: rinkuAPI
+      - './mysql:/var/lib/mysql'
+    networks:
+      - backend
+  backend:
+    depends_on: 
+      - db
+    container_name: rinku-api
+    restart: always
+    build:
+      context: ./API
+      dockerfile: Dockerfile
     ports:
-      - 2002:2002
-
-      
+      - '2002:2002'
+    expose:
+      - 2002
+    networks:
+      - backend
+      - frontend
+  frontend:
+    depends_on: 
+      - backend
+    container_name: rinku-app
+    restart: always
+    build:
+      context: ./rinku-app
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    networks:
+      - frontend
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
