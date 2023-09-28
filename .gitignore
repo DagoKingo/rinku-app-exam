@@ -1,4 +1,4 @@
-mysql
+mysql/*
 .vscode
 node_modules
 API/dist
