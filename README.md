@@ -33,6 +33,7 @@ GET:
 
 POST:
 1. http://localhost:2002/api/v1/trabajadores
+
     `
     {
         "nombre": "Juan",
