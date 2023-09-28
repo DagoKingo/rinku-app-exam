@@ -3,8 +3,9 @@
 ## Deploy App
 
 1. Instalar Docker y Docker-Compose (Docker Desktop en windows)
-2. Ubicarse en el directorio raiz de este proyecto y correr el siguiente comando: `docker-compose up -d`
-3. Acceder a la siguiente liga para ver el proyecto: [http://localhost:8080/](http://localhost:8080)
+2. Ubicarse en el directorio raiz de este proyecto y correr el siguiente comando: `docker-compose pull`
+3. Ubicarse en el directorio raiz de este proyecto y correr el siguiente comando: `docker-compose up -d --build`
+4. Acceder a la siguiente liga para ver el proyecto: [http://localhost:8081/](http://localhost:8081)
 
 ## Frontend
 
@@ -57,7 +58,7 @@ POST:
 
 ## Database
 
-Se utilizo mysql como motor de base de datos y se puede encontrar el `dump` de la base de datos en la carpeta dump de este proyecto, se utilizaron procedimientos almacenados para interactuar con las tablas.
+Se utilizo mysql como motor de base de datos y se puede encontrar el `dump` de la base de datos en la carpeta db de este proyecto. Se utilizaron procedimientos almacenados para interactuar con las tablas.
 
 Diagrama de Entidad - Relación:
 
