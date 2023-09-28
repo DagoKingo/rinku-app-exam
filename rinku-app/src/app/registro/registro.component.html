@@ -1,0 +1,32 @@
+<main>
+  <form>
+      <div class="mb-3">
+          <label for="worker-name" class="col-form-label">Nombre:</label>
+          <input type="text" [(ngModel)]="worker.nombre" class="form-control" name="worker-name">
+      </div>
+      <div class="mb-3">
+          <label for="worker-number" class="col-form-label">Número de Empleado:</label>
+          <input [(ngModel)]="worker.numero" type="text" class="form-control" name="worker-number">
+      </div>
+      <div class="mb-3">
+          <p>Rol:</p>
+          <div *ngFor="let rol of roles" class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="workerRole"
+                id="flexRadio-{{rol.id}}"
+                [(ngModel)]="worker.id_tipo"
+                [value]="rol.id"
+              >
+              <label class="form-check-label" for="flexRadio-{{rol.id}}">
+                  {{rol.tipo}}
+              </label>
+          </div>
+      </div>
+      <div class="options">
+          <button type="button" class="btn btn-success" (click)="save()">Guardar</button>
+          <button type="button" class="btn btn-danger" (click)="clear()">Cancelar</button>
+      </div>
+  </form>
+</main>

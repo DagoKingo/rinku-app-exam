@@ -9,7 +9,13 @@ services:
       MYSQL_DATABASE: rinkudb
       MYSQL_ROOT_PASSWORD: qaz123!
     ports:
-      - '3306:3306'
+      - 3306:3306
     volumes:
       - ./mysql:/var/lib/mysql
+  API:
+    image: node:lts-hydrogen
+    container_name: rinkuAPI
+    ports:
+      - 2002:2002
+
       

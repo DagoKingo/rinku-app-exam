@@ -1,0 +1,76 @@
+<main>
+  <form>
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          name="woker-number"
+          placeholder="Recipient's username"
+          aria-label="Recipient's username"
+          [(ngModel)]="worker.numero"
+          aria-describedby="button-addon2"
+          (keypress)="OnEnterKeyPress($event)">
+        <button
+          class="btn btn-primary"
+          type="button"
+          id="button-addon2"
+          (click)="buscarEmpleado()"
+        >Buscar</button>
+      </div>
+      <div class="mb-3">
+          <label for="worker-name" class="col-form-label">Nombre:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="worker-name"
+            disabled
+            [(ngModel)]="worker.nombre"
+          >
+      </div>
+      <div class="mb-3">
+        <label for="worker-name" class="col-form-label">Rol:</label>
+        <input
+          type="text"
+          class="form-control"
+          name="worker-role"
+          [(ngModel)]="worker.rol"
+          disabled>
+      </div>
+      <div class="mb-3">
+          <label for="month"> Mes:</label>
+          <select class="form-select" id="month" aria-label="Disabled select example" [disabled]="!workerFound" >
+              <option selected>-- Seleccionar --</option>
+              <option value="1">Enero</option>
+              <option value="2">Febrero</option>
+              <option value="3">Marzo</option>
+              <option value="4">Abril</option>
+              <option value="5">Mayo</option>
+              <option value="6">Junio</option>
+              <option value="7">Julio</option>
+              <option value="8">Agosto</option>
+              <option value="9">Septiembre</option>
+              <option value="10">Octubre</option>
+              <option value="11">Noviembre</option>
+              <option value="12">Diciembre</option>
+          </select>
+      </div>
+      <div class="mb-3">
+        <label for="worker-name" class="col-form-label">Cantidad de cargas:</label>
+        <input type="number" class="form-control" [(ngModel)]="entregas" name="worker-count" [disabled]="!workerFound" >
+      </div>
+      <div class="options">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="calcular()"
+          [disabled]="!workerFound"
+        >Calcular</button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="clear()"
+          [disabled]="!workerFound"
+        >Cancelar</button>
+      </div>
+  </form>
+</main>
