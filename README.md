@@ -48,3 +48,7 @@ Se utilizo mysql como motor de base de datos y se puede encontrar el `dump` de l
 Diagrama de Entidad - Relación:
 
 ![Alt text](image-3.png)
+
+Procedimientos utilizados:
+
+![Alt text](image-4.png)
