@@ -10,6 +10,7 @@ import ITrabajador from '../interfaces/ITrabajador';
 })
 export class TrabajadoresComponent implements OnInit, OnDestroy {
   workers: ITrabajador[] = [];
+  selectedWorker: ITrabajador = {};
   subscription$: Subscription = new Subscription();
   constructor(private service: TrabajadorService){ }
 
@@ -25,5 +26,28 @@ export class TrabajadoresComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription$.unsubscribe();
+  }
+
+  getPagos(worker: ITrabajador){
+    this.selectedWorker = worker;
+    this.subscription$ = this.service.getPagos(this.selectedWorker.id!).subscribe({
+      next: (result: any) => {
+        if (result.success) {
+          this.selectedWorker.pagos = result.data;
+        } else {
+          alert(result.message);
+        }
+      }, error: (err: any) => {
+        alert(err.message);
+      }
+    });
+  }
+
+  trabajadorTienePagos(){
+    if (this.selectedWorker.pagos!.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

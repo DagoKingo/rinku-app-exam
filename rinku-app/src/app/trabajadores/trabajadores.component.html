@@ -6,6 +6,7 @@
               <th scope="col"># Empleado</th>
               <th scope="col">Nombre</th>
               <th scope="col">Rol</th>
+              <th scope="col">Acciones</th>
           </tr>
       </thead>
       <tbody>
@@ -13,7 +14,73 @@
             <td>{{ worker.numero }}</td>
             <td>{{ worker.nombre }}</td>
             <td>{{ worker.rol }}</td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                (click)="getPagos(worker)"
+              > Consultar pagos
+              </button>
+            </td>
         </tr>
       </tbody>
   </table>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="recipient-name" class="col-form-label">Nombre:</label>
+          <input type="text" [(ngModel)]="selectedWorker.nombre" class="form-control" name="worker-name" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="message-text" class="col-form-label">Numero Empleado:</label>
+          <input type="text" [(ngModel)]="selectedWorker.numero" class="form-control" name="worker-number" disabled>
+        </div>
+        <div class="mb-3">
+          <div *ngIf="trabajadorTienePagos;else notfound">
+            <table class="table">
+              <thead>
+                  <tr>
+                      <th scope="col">Mes</th>
+                      <th scope="col">Pago Mensual</th>
+                      <th scope="col">Bono x horas</th>
+                      <th scope="col">Bono x entregas</th>
+                      <th scope="col">Vale despensa</th>
+                      <th scope="col">Retención</th>
+                      <th scope="col">Pago bruto</th>
+                      <th scope="col">Pago neto</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let pago of selectedWorker.pagos">
+                    <td>{{ pago.mes }}</td>
+                    <td>{{ pago.pago_mensual }}</td>
+                    <td>{{ pago.pago_bono_horas }}</td>
+                    <td>{{ pago.bono_entregas }}</td>
+                    <td>{{ pago.vale_despensa }}</td>
+                    <td>{{ pago.retencion }}</td>
+                    <td>{{ pago.pago_bruto }}</td>
+                    <td>{{ pago.pago_neto }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ng-template #notfound>No se encontraron pagos registrados</ng-template>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 </main>

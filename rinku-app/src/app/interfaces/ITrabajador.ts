@@ -1,3 +1,5 @@
+import IPago from "./IPago";
+
 interface ITrabajador {
   id?: number;
   nombre?: string;
@@ -10,6 +12,7 @@ interface ITrabajador {
   bono_x_entrega?: number;
   bono_x_hora?: number;
   porcentaje_vale_despensa?: number;
+  pagos?: IPago[];
 }
 
 export default ITrabajador;

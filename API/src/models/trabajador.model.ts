@@ -3,6 +3,7 @@ import ITrabajador from "../interfaces/trabajador.inteface";
 import Model from "./model";
 
 class Trabajador extends Model implements ITrabajador {
+    public id: number;
     public nombre: string;
     public numero: string;
     public id_tipo: number;
@@ -24,6 +25,22 @@ class Trabajador extends Model implements ITrabajador {
             this.nombre,
             this.numero,
             this.id_tipo
+        ]);
+        return response;
+    }
+
+    async storePayment(id_mes: number, entregas: number): Promise<any> {
+        const response = await this.executePoolQuery('CALL sp_store_pago(?,?,?);', [
+            this.id,
+            id_mes,
+            entregas
+        ]);
+        return response;
+    }
+
+    async getPayments(): Promise<any> {
+        const response = await this.executePoolQuery('CALL sp_get_pagos(?);', [
+            this.id
         ]);
         return response;
     }

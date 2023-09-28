@@ -38,8 +38,8 @@
       </div>
       <div class="mb-3">
           <label for="month"> Mes:</label>
-          <select class="form-select" id="month" aria-label="Disabled select example" [disabled]="!workerFound" >
-              <option selected>-- Seleccionar --</option>
+          <select class="form-select" id="month" aria-label="Disabled select example" [disabled]="!workerFound" [(ngModel)]="mes" name="month" >
+              <option value="0" selected>-- Seleccionar --</option>
               <option value="1">Enero</option>
               <option value="2">Febrero</option>
               <option value="3">Marzo</option>

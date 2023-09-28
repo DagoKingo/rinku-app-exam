@@ -20,7 +20,15 @@ export class TrabajadorService extends ApiService {
     return this.postRequest(this.BASE_URL, trabajador);
   }
 
+  storePago(id_trabajador: number, id_mes: number, entregas: number){
+    return this.postRequest(this.BASE_URL+"/pagos", { id_trabajador, id_mes, entregas });
+  }
+
   getRoles(){
     return this.getRequest(this.BASE_URL+"/roles");
+  }
+
+  getPagos(id_trabajador: number){
+    return this.getRequest(this.BASE_URL+`/pagos?id_trabajador=${id_trabajador}`);
   }
 }

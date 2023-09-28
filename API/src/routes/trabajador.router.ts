@@ -16,8 +16,20 @@ router.post('/', async(req: Request, res: Response) => {
     res.status(200).json(result);
 });
 
+router.post('/pagos', async(req: Request, res: Response) => {
+    const { id_trabajador, id_mes, entregas } = req.body;
+    const result = await controller.storePago(id_trabajador, id_mes, entregas);
+    res.status(200).json(result);
+});
+
 router.get('/roles', async(req: Request, res: Response) => {
     const result = await controller.getRoles();
+    res.status(200).json(result);
+});
+
+router.get('/pagos?:id_trabajador', async(req: Request, res: Response) => {
+    const id_trabajador = Number(req.query.id_trabajador.toString());
+    const result = await controller.getPagos(id_trabajador);
     res.status(200).json(result);
 });
 

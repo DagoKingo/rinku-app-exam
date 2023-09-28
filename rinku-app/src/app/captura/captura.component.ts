@@ -12,6 +12,7 @@ export class CapturaComponent implements OnInit, OnDestroy {
   worker: ITrabajador = {}
   workerFound: boolean = false;
   entregas: number = 0;
+  mes: number = 0;
   workers: ITrabajador[] = [];
   subscription$: Subscription = new Subscription();
   constructor(private service: TrabajadorService){ }
@@ -53,38 +54,24 @@ export class CapturaComponent implements OnInit, OnDestroy {
   }
 
   calcular(){
-    const sueldoSemanal = this.getSueldoSemanal();
-    const pagoEntregas = (this.worker.bono_x_entrega! * this.entregas);
-    const sueldoMensual = (sueldoSemanal * 4) + pagoEntregas;
-    const retencionISR = this.getISR(sueldoSemanal + pagoEntregas);
-    const valeDespensa = this.getValesDespensa(sueldoSemanal + pagoEntregas);
-
-    const sueldoNeto = ((sueldoSemanal * 4) + pagoEntregas) - retencionISR + valeDespensa;
-    alert(`
-      \nEl pago neto del trabajador es de: ${sueldoNeto}
-      \nPago Semanal: ${sueldoSemanal}
-      \nBono por entregas: ${pagoEntregas}
-      \nRetencion: ${retencionISR} (${sueldoMensual > 10000 ? '12' : '9'}%)
-      \nVale de despensa: ${valeDespensa}
-    `);
-  }
-
-  getSueldoSemanal(){
-    return this.worker.sueldo_base_x_hora! * this.worker.horas_x_dia! * this.worker.dias_x_semana!;
-  }
-
-  getISR(pago:number) {
-    let isr = 0;
-    if (pago > 10000) {
-      isr = pago * 0.12
+    if (this.mes == 0) {
+      alert('Debes elegir un mes');
     } else {
-      isr = pago * 0.09
+      this.subscription$ =
+        this.service
+        .storePago(this.worker.id!, this.mes, this.entregas)
+        .subscribe({
+        next: (result: any) => {
+          if (result.success){
+            alert('El pago se capturó exitosamente');
+            this.clear();
+          } else {
+            alert(result.message);
+          }
+        }, error: (err: any) => {
+          alert(err.message);
+        }
+      });
     }
-    return isr;
-  }
-
-  getValesDespensa(pago:number){
-    const vale = pago * 0.04;
-    return vale;
   }
 }
