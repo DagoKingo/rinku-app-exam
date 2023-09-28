@@ -11,12 +11,15 @@
 El proyecto fue desarrollado con Angular y esta conformado por 3 secciones que se muestran a continuación:
 
 1. Trabajadores:
+
 ![Alt text](https://i.imgur.com/u9I13P0.png)
 
 2. Registro de trabajador:
+
 ![Alt text](https://i.imgur.com/4fQiMnM.png)
 
 3. Calculo de pagos:
+
 ![Alt text](https://i.imgur.com/uzSA6Js.png)
 
 ## Backend
@@ -43,4 +46,5 @@ POST:
 Se utilizo mysql como motor de base de datos y se puede encontrar el `dump` de la base de datos en la carpeta dump de este proyecto, se utilizaron procedimientos almacenados para interactuar con las tablas.
 
 Diagrama de Entidad - Relación:
+
 ![Alt text](image-3.png)
