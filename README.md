@@ -18,3 +18,8 @@ El proyecto fue desarrollado con Angular y esta conformado por 3 secciones que s
 
 3. Calculo de pagos:
 ![Alt text](https://i.imgur.com/uzSA6Js.png)
+
+## Backend
+
+El proyecto consite en una API y fue desarrollado en nodejs utilizando express como framework, typescript como lenguaje y MVC como patron de diseño.
+
